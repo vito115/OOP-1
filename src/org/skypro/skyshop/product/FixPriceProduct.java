@@ -2,20 +2,20 @@ package org.skypro.skyshop.product;
 
 public class FixPriceProduct extends Product {
 
+    public static final double FIX_PRICE = 55;
+
     public FixPriceProduct(String name) {
         super(name);
     }
 
     @Override
     public double getPrice() {
-        return fixPrice;
+        return FIX_PRICE;
     }
-
-    public static final double fixPrice = 55;
 
     @Override
     public String toString() {
-        return getName() + " с фиксированой ценой : " + getPrice() + " < " + fixPrice + " >";
+        return getName() + " с фиксированой ценой : " + getPrice() + " < " + FIX_PRICE + " >";
     }
 
     @Override

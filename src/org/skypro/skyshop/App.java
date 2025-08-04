@@ -52,6 +52,7 @@ public class App {
 
             productBasket.showBasket();
             productBasket.countSpecialProducts();
+            System.out.println();
         }
     }
 }

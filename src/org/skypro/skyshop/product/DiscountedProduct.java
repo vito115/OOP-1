@@ -2,8 +2,8 @@ package org.skypro.skyshop.product;
 
 public class DiscountedProduct extends Product {
 
-    private double basicPrice;
-    private int percentDiscount;
+    private final double basicPrice;
+    private final int percentDiscount;
 
     public DiscountedProduct(String name, double basicPrice, int percentDiscount) {
         super(name);
