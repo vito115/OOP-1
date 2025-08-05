@@ -47,12 +47,18 @@ public class App {
 
             productBasket.isProductInBasket(milk.getName());
 
+            productBasket.addProduct(milk);
+            productBasket.addProduct(bread);
+            productBasket.addProduct(water);
+            productBasket.addProduct(apple);
+            productBasket.addProduct(iceCream);
+
             productBasket.addProduct(hammer);
             productBasket.addProduct(ball);
 
             productBasket.showBasket();
             productBasket.countSpecialProducts();
-            System.out.println();
+            System.out.println(productBasket.countSpecialProducts());
         }
     }
 }
