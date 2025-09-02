@@ -1,10 +1,12 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.SearchEngine;
 
 public class App {
 
@@ -59,6 +61,28 @@ public class App {
             productBasket.showBasket();
             productBasket.countSpecialProducts();
             System.out.println(productBasket.countSpecialProducts());
+
+
+            System.out.println("Polymorfism!");
+
+            SearchEngine searchEngine = new SearchEngine();
+
+            Product avocado = new SimpleProduct("Avocado", 120);
+            Product melon = new SimpleProduct("Melon", 300);
+            Product watermelon = new DiscountedProduct("Watermelon", 250, 25);
+
+            searchEngine.add(avocado);
+            searchEngine.add(melon);
+            searchEngine.add(watermelon);
+
+            Article notebook = new Article("Acer", "Игровой ноутбук");
+            Article book = new Article("Plov", "Кулинария");
+
+            searchEngine.add(notebook);
+            searchEngine.add(book);
+
+            Searchable[] results = searchEngine.search("Товары");
+
         }
     }
 }
