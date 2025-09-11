@@ -8,7 +8,7 @@ public class ProductBasket {
     private int count;
 
     public ProductBasket() {
-        this.products = new Product[5];
+        this.products = new Product[10];
         this.count = 0;
     }
 
@@ -22,8 +22,8 @@ public class ProductBasket {
         }
     }
 
-    public int getTotalPrice() {
-        int total = 0;
+    public double getTotalPrice() {
+        double total = 0;
         for (int i = 0; i < count; i++) {
             total += products[i].getPrice();
         }
@@ -46,12 +46,10 @@ public class ProductBasket {
         for (int i = 0; i < count; i++) {
             if (products[i].getName().equalsIgnoreCase(productName)) {
                 System.out.println("Товар есть в корзине");
-                return;
             } else {
                 System.out.println("Товар не найден");
                 return;
             }
-
         }
     }
 
@@ -62,5 +60,27 @@ public class ProductBasket {
         }
         count = 0;
         System.out.println("Корзина очищена");
+    }
+
+    public int countSpecialProducts() {
+        int specialCount = 0;
+
+        for (Product product : products) {
+            if (product != null && product.isSpecial()) {
+                specialCount++;
+            }
+        }
+        return specialCount;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (Product product : products) {
+            result.append(product.toString()).append("\n");
+        }
+        result.append("Итого: ").append(getTotalPrice()).append("\n");
+        result.append("Специальных товаров: ").append(countSpecialProducts()).append("\n");
+        return result.toString();
     }
 }
