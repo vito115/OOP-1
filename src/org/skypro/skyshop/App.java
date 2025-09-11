@@ -6,7 +6,11 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -24,6 +28,20 @@ public class App {
 
             Product hammer = new FixPriceProduct("Молоток");
             Product ball = new DiscountedProduct("Мяч", 1000, 70);
+
+            try {
+                Product meet = new DiscountedProduct("Мясо", -100, 30);
+                System.out.println("Добавлен продукт " + meet);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка у продукта " + e.getMessage());
+            }
+            try {
+                Product juice = new SimpleProduct(" ", -100);
+                System.out.println("Добавлен продукт " + juice);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка у продукта " + e.getMessage());
+            }
+
 
             productBasket.addProduct(milk);
             productBasket.addProduct(bread);
@@ -81,8 +99,28 @@ public class App {
             searchEngine.add(notebook);
             searchEngine.add(book);
 
-            Searchable[] results = searchEngine.search("Товары");
+            Searchable[] results = searchEngine.search("Товары").toArray(new Searchable[0]);
 
+            List<Searchable> items = new ArrayList<>();
+
+            items.add(avocado);
+            items.add(melon);
+            items.add(watermelon);
+            items.add(notebook);
+            items.add(book);
+
+            try {
+                Searchable bestMatch = searchEngine.findBestMatch("Avocado", items);
+                System.out.println("Найден товар " + bestMatch);
+            } catch (BestResultNotFound e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                Searchable bestMatch = searchEngine.findBestMatch("Неизвестный товар", items);
+                System.out.println("Найден товар " + bestMatch);
+            } catch (BestResultNotFound e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }

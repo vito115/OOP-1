@@ -9,6 +9,12 @@ public class DiscountedProduct extends Product {
         super(name);
         this.basicPrice = basicPrice;
         this.percentDiscount = percentDiscount;
+        if (basicPrice <= 0) {
+            throw new IllegalArgumentException("Базовая цена должна быть больше нуля");
+        }
+        if (percentDiscount < 0 || percentDiscount > 100) {
+            throw new IllegalArgumentException("Процент скидки должен быть в диапазоне от 0 до 100");
+        }
     }
 
     @Override
