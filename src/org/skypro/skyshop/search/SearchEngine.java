@@ -27,7 +27,7 @@ public class SearchEngine {
                 results.add(searchable);
             }
         }
-        return results.size() > 5 ? results.subList(0, 5) : results;
+        return results;
     }
 
 

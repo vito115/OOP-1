@@ -29,18 +29,18 @@ public class App {
             Product hammer = new FixPriceProduct("Молоток");
             Product ball = new DiscountedProduct("Мяч", 1000, 70);
 
-            try {
-                Product meet = new DiscountedProduct("Мясо", -100, 30);
-                System.out.println("Добавлен продукт " + meet);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ошибка у продукта " + e.getMessage());
-            }
-            try {
-                Product juice = new SimpleProduct(" ", -100);
-                System.out.println("Добавлен продукт " + juice);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ошибка у продукта " + e.getMessage());
-            }
+//            try {
+//                Product meet = new DiscountedProduct("Мясо", -100, 30);
+//                System.out.println("Добавлен продукт " + meet);
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("Ошибка у продукта " + e.getMessage());
+//            }
+//            try {
+//                Product juice = new SimpleProduct(" ", -100);
+//                System.out.println("Добавлен продукт " + juice);
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("Ошибка у продукта " + e.getMessage());
+//            }
 
 
             productBasket.addProduct(milk);
@@ -99,9 +99,15 @@ public class App {
             searchEngine.add(notebook);
             searchEngine.add(book);
 
-            Searchable[] results = searchEngine.search("Товары").toArray(new Searchable[0]);
+            //Searchable[] results = searchEngine.search("Товары").toArray(new Searchable[0]);
 
             List<Searchable> items = new ArrayList<>();
+            List<Searchable> results = searchEngine.search("Товары");
+
+            System.out.println("Результаты поиска:");
+            for (Searchable result : results) {
+                System.out.println(result);
+            }
 
             items.add(avocado);
             items.add(melon);
@@ -121,6 +127,14 @@ public class App {
             } catch (BestResultNotFound e) {
                 System.out.println(e.getMessage());
             }
+
+            System.out.println("List");
+
+            productBasket.removeProduct(milk);
+            productBasket.showBasket();
+            productBasket.checkAndRemoveExistentProduct("Пианино");
+            productBasket.showBasket();
+
         }
     }
 }
