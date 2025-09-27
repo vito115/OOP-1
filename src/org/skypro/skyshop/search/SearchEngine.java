@@ -4,6 +4,8 @@ import org.skypro.skyshop.Searchable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class SearchEngine {
 
@@ -14,9 +16,9 @@ public class SearchEngine {
     }
 
 
-    public List<Searchable> search(String query) {
+    public Map<String, Searchable> search(String query) {
 
-        List<Searchable> results = new ArrayList<>();
+        Map<String, Searchable> results = new TreeMap<>();
 
 
         for (Searchable searchable : searchables) {
@@ -24,7 +26,8 @@ public class SearchEngine {
             String term = searchable.getSearchTerm();
 
             if (term != null && term.contains(query)) {
-                results.add(searchable);
+                results.put(searchable.getName(), searchable);
+                System.out.println("Добавлено в результаты: " + searchable.getName());
             }
         }
         return results;

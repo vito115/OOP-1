@@ -11,6 +11,7 @@ import org.skypro.skyshop.search.SearchEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -102,11 +103,11 @@ public class App {
             //Searchable[] results = searchEngine.search("Товары").toArray(new Searchable[0]);
 
             List<Searchable> items = new ArrayList<>();
-            List<Searchable> results = searchEngine.search("Товары");
+            Map<String, Searchable> results = searchEngine.search("Товары");
 
             System.out.println("Результаты поиска:");
-            for (Searchable result : results) {
-                System.out.println(result);
+            for (Map.Entry<String, Searchable> entry : results.entrySet()) {
+                System.out.println("Имя: " + entry.getKey() + " Объект " + entry.getValue());
             }
 
             items.add(avocado);
@@ -134,6 +135,9 @@ public class App {
             productBasket.showBasket();
             productBasket.checkAndRemoveExistentProduct("Пианино");
             productBasket.showBasket();
+
+            System.out.println("Map");
+
 
         }
     }
