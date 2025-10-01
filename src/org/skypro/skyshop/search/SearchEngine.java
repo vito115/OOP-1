@@ -2,23 +2,19 @@ package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.Searchable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class SearchEngine {
 
-    private List<Searchable> searchables;
+    private Set<Searchable> searchables;
 
     public SearchEngine() {
-        this.searchables = new ArrayList<>();
+        this.searchables = new HashSet<>();
     }
 
+    public Set<Searchable> search(String query) {
 
-    public Map<String, Searchable> search(String query) {
-
-        Map<String, Searchable> results = new TreeMap<>();
+        Set<Searchable> results = new TreeSet<>((s1, s2)->s1.getName().compareTo(s2.getName()));
 
 
         for (Searchable searchable : searchables) {
@@ -26,7 +22,7 @@ public class SearchEngine {
             String term = searchable.getSearchTerm();
 
             if (term != null && term.contains(query)) {
-                results.put(searchable.getName(), searchable);
+                results.add(searchable);
                 System.out.println("Добавлено в результаты: " + searchable.getName());
             }
         }
@@ -41,7 +37,7 @@ public class SearchEngine {
         }
     }
 
-    public Searchable findBestMatch (String search, List<Searchable> items) throws BestResultNotFound{
+    public Searchable findBestMatch (String search, Set<Searchable> items) throws BestResultNotFound{
         Searchable bestMatch = null;
         int maxOccurrences = 0;
 

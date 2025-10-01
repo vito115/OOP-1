@@ -9,9 +9,7 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class App {
 
@@ -102,28 +100,28 @@ public class App {
 
             //Searchable[] results = searchEngine.search("Товары").toArray(new Searchable[0]);
 
-            List<Searchable> items = new ArrayList<>();
-            Map<String, Searchable> results = searchEngine.search("Товары");
+            Set<Searchable> itemsSet = new HashSet<>();
+            Set<Searchable> results = searchEngine.search("Товары");
 
             System.out.println("Результаты поиска:");
-            for (Map.Entry<String, Searchable> entry : results.entrySet()) {
-                System.out.println("Имя: " + entry.getKey() + " Объект " + entry.getValue());
+            for (Searchable item : results) {
+                System.out.println("Имя: " + item.getName() + " Объект " + item);
             }
 
-            items.add(avocado);
-            items.add(melon);
-            items.add(watermelon);
-            items.add(notebook);
-            items.add(book);
+            itemsSet.add(avocado);
+            itemsSet.add(melon);
+            itemsSet.add(watermelon);
+            itemsSet.add(notebook);
+            itemsSet.add(book);
 
             try {
-                Searchable bestMatch = searchEngine.findBestMatch("Avocado", items);
+                Searchable bestMatch = searchEngine.findBestMatch("Avocado", itemsSet);
                 System.out.println("Найден товар " + bestMatch);
             } catch (BestResultNotFound e) {
                 System.out.println(e.getMessage());
             }
             try {
-                Searchable bestMatch = searchEngine.findBestMatch("Неизвестный товар", items);
+                Searchable bestMatch = searchEngine.findBestMatch("Неизвестный товар", itemsSet);
                 System.out.println("Найден товар " + bestMatch);
             } catch (BestResultNotFound e) {
                 System.out.println(e.getMessage());
@@ -138,7 +136,18 @@ public class App {
 
             System.out.println("Map");
 
+            System.out.println(productBasket);
 
+            Set<Article> articles = new TreeSet<>(new Article.ArticleComparator());
+
+            articles.add(new Article("Oneplus -", "Smartphone"));
+            articles.add(new Article("PlayStaytion -", "GameConsole"));
+            articles.add(new Article("LG -", "Projector"));
+
+            System.out.println("Отсортированные статьи:");
+            for (Article article : articles) {
+                System.out.println(article);
+            }
         }
     }
 }
