@@ -1,12 +1,13 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
+import org.skypro.skyshop.article.SearchableNameComparator;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.SimpleProduct;
-import org.skypro.skyshop.search.BestResultNotFound;
+import org.skypro.skyshop.search.BestResultNotFoundException;
 import org.skypro.skyshop.search.SearchEngine;
 
 import java.util.*;
@@ -117,13 +118,16 @@ public class App {
             try {
                 Searchable bestMatch = searchEngine.findBestMatch("Avocado", itemsSet);
                 System.out.println("Найден товар " + bestMatch);
-            } catch (BestResultNotFound e) {
+            } catch (BestResultNotFoundException e) {
                 System.out.println(e.getMessage());
             }
             try {
                 Searchable bestMatch = searchEngine.findBestMatch("Неизвестный товар", itemsSet);
                 System.out.println("Найден товар " + bestMatch);
-            } catch (BestResultNotFound e) {
+            } catch (BestResultNotFoundException e) {
+
+
+                
                 System.out.println(e.getMessage());
             }
 
@@ -138,7 +142,7 @@ public class App {
 
             System.out.println(productBasket);
 
-            Set<Article> articles = new TreeSet<>(new Article.ArticleComparator());
+            Set<Article> articles = new TreeSet<>(new SearchableNameComparator());
 
             articles.add(new Article("Oneplus -", "Smartphone"));
             articles.add(new Article("PlayStaytion -", "GameConsole"));

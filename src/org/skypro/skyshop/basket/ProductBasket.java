@@ -6,27 +6,25 @@ import java.util.*;
 
 public class ProductBasket {
 
-    private Map<String, List<Product>> products;
+    private List<List<Product>> products;
 
     public ProductBasket() {
-        this.products = new HashMap<>();
+        this.products = new ArrayList<>();
     }
 
     public void removeProduct(Product product) {
-        for (List<Product> productList : products.values()) {
-            if (productList.remove(product)) {
-                System.out.println(product.getName() + " продукт удален из корзины");
-                return;
-            }
+        if (products.remove(product)) {
+            System.out.println(product.getName() + " продукт удален из корзины");
+        } else {
+            System.out.println(product.getName() + " не найден в корзине");
         }
-        System.out.println(product.getName() + " не найден в корзине");
     }
 
 
-    public List<Product> removeProductsByName (String name) {
+    public List<Product> removeProductsByName(String name) {
         List<Product> removedProducts = new ArrayList<>();
 
-        for (List<Product> productList : products.values()) {
+        for (List<Product> productList : products) {
             Iterator<Product> iterator = productList.iterator();
             while (iterator.hasNext()) {
                 Product product = iterator.next();
@@ -47,13 +45,19 @@ public class ProductBasket {
     }
 
     public void addProduct(Product product) {
-        products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
-            System.out.println(product.getName() + " добавлен в корзину");
+        if (products.isEmpty()) {
+            List<Product> newProductList = new ArrayList<>();
+            newProductList.add(product);
+            products.add((List<Product>) newProductList);
+        } else {
+            products.get(0).add(product);
+        }
+        System.out.println(product.getName() + " добавлен в корзину");
     }
 
     public double getTotalPrice() {
         double total = 0;
-        for (List<Product> productList: products.values()) {
+        for (List<Product> productList: products) {
             for (Product product : productList) {
                 total += product.getPrice();
             }
@@ -66,7 +70,7 @@ public class ProductBasket {
             System.out.println("В корзине пусто!");
         } else {
             System.out.println("Содержимое корзины:");
-            for (List<Product> productList: products.values()) {
+            for (List<Product> productList: products) {
                 for (Product product : productList) {
                     System.out.println(product.getName() + " - " + product.getPrice() + " руб.");
                 }
@@ -76,7 +80,7 @@ public class ProductBasket {
     }
 
     public void isProductInBasket(String productName) {
-        for (List<Product> productList: products.values()) {
+        for (List<Product> productList: products) {
             for (Product product : productList) {
 
                 if (product.getName().equalsIgnoreCase(productName)) {
@@ -96,7 +100,7 @@ public class ProductBasket {
     public int countSpecialProducts() {
         int specialCount = 0;
 
-        for (List<Product> productList: products.values()) {
+        for (List<Product> productList: products) {
             for (Product product : productList) {
 
                 if (product != null && product.isSpecial()) {
@@ -110,7 +114,7 @@ public class ProductBasket {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (List<Product> productList: products.values()) {
+        for (List<Product> productList: products) {
             for (Product product : productList) {
 
                 result.append(product.toString()).append("\n");

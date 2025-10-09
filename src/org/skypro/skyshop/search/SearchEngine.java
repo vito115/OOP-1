@@ -1,6 +1,7 @@
 package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.Searchable;
+import org.skypro.skyshop.article.SearchableNameComparator;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class SearchEngine {
 
     public Set<Searchable> search(String query) {
 
-        Set<Searchable> results = new TreeSet<>((s1, s2)->s1.getName().compareTo(s2.getName()));
+        Set<Searchable> results = new TreeSet<>(new SearchableNameComparator());
 
 
         for (Searchable searchable : searchables) {
@@ -37,7 +38,7 @@ public class SearchEngine {
         }
     }
 
-    public Searchable findBestMatch (String search, Set<Searchable> items) throws BestResultNotFound{
+    public Searchable findBestMatch (String search, Set<Searchable> items) throws BestResultNotFoundException{
         Searchable bestMatch = null;
         int maxOccurrences = 0;
 
@@ -53,7 +54,7 @@ public class SearchEngine {
             }
         }
         if (bestMatch == null) {
-            throw new BestResultNotFound("Не нашлось подходящей статьи для " + search);
+            throw new BestResultNotFoundException("Не нашлось подходящей статьи для " + search);
         }
         return bestMatch;
     }
