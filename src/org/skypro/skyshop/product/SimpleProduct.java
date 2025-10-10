@@ -1,5 +1,7 @@
 package org.skypro.skyshop.product;
 
+import java.util.Objects;
+
 public class SimpleProduct extends Product {
 
     private final double price;
@@ -24,12 +26,17 @@ public class SimpleProduct extends Product {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
+
+        SimpleProduct that = (SimpleProduct) obj;
+        return Double.compare(that.price, price) == 0;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(super.hashCode(), price);
     }
 
     @Override
