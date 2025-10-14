@@ -3,6 +3,7 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductBasket {
 
@@ -26,16 +27,10 @@ public class ProductBasket {
 
 
     public List<Product> removeProductsByName(String name) {
-        List<Product> removedProducts = new ArrayList<>();
-        Iterator<Product> iterator = products.iterator();
-
-            while (iterator.hasNext()) {
-                Product product = iterator.next();
-                if (product.getName().equals(name)) {
-                    removedProducts.add(product);
-                    iterator.remove();
-                }
-            }
+        List<Product> removedProducts = products.stream()
+                .filter(product -> product.getName().equals(name))
+                .collect(Collectors.toList());
+        products.removeAll(removedProducts);
         return removedProducts;
     }
 
@@ -72,13 +67,14 @@ public class ProductBasket {
     }
 
     public void isProductInBasket(String productName) {
-        for (Product product: products) {
-                if (product.getName().equalsIgnoreCase(productName)) {
-                    System.out.println("Товар есть в корзине");
-                    return;
-                }
-            }
-        System.out.println("Товар не найден");
+        boolean exists = products.stream()
+                .anyMatch(product -> product.getName().equalsIgnoreCase(productName));
+
+        if (exists) {
+            System.out.println("Товар есть в корзине");
+        } else {
+            System.out.println("Товар не найден");
+        }
     }
 
     public void clearBasket() {
@@ -87,24 +83,18 @@ public class ProductBasket {
     }
 
     public int countSpecialProducts() {
-        int specialCount = 0;
 
-        for (Product product: products) {
-                if (product != null && product.isSpecial()) {
-                    specialCount++;
-                }
-            }
-        return specialCount;
+        return (int) products.stream()
+                .filter(product -> product != null && product.isSpecial())
+                .count();
     }
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Product product: products) {
-                result.append(product.toString()).append("\n");
-            }
-        result.append("Итого: ").append(getTotalPrice()).append("\n");
-        result.append("Специальных товаров: ").append(countSpecialProducts()).append("\n");
-        return result.toString();
+        String productsString = products.stream()
+                .map(Product::toString)
+                .collect(Collectors.joining("\n"));
+        return productsString + "\nИтого: " + getTotalPrice() + "\n" +
+                "Специальных товаров: " + countSpecialProducts() + "\n";
     }
 }

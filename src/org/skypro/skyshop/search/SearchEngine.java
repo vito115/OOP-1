@@ -4,6 +4,8 @@ import org.skypro.skyshop.Searchable;
 import org.skypro.skyshop.article.SearchableNameComparator;
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
 
@@ -14,22 +16,14 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String query) {
-
-        Set<Searchable> results = new TreeSet<>(new SearchableNameComparator());
-
-
-        for (Searchable searchable : searchables) {
-
-            String term = searchable.getSearchTerm();
-
-            if (term != null && term.contains(query)) {
-                results.add(searchable);
-                System.out.println("Добавлено в результаты: " + searchable.getName());
-            }
-        }
-        return results;
+        return searchables.stream()
+                .filter(searchable -> {
+                    String term = searchable.getSearchTerm();
+                    return term != null && term.contains(query);
+                })
+                .peek(searchable -> System.out.println("Добавлено в результаты: " + searchable.getName()))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableNameComparator())));
     }
-
 
     public void add(Searchable searchable) {
 
