@@ -21,7 +21,6 @@ public class SearchEngine {
                     String term = searchable.getSearchTerm();
                     return term != null && term.contains(query);
                 })
-                .peek(searchable -> System.out.println("Добавлено в результаты: " + searchable.getName()))
                 .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableNameComparator())));
     }
 

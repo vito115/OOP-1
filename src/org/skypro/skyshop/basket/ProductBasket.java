@@ -66,7 +66,7 @@ public class ProductBasket {
         }
     }
 
-    public void isProductInBasket(String productName) {
+    public boolean isProductInBasket(String productName) {
         boolean exists = products.stream()
                 .anyMatch(product -> product.getName().equalsIgnoreCase(productName));
 
@@ -75,6 +75,7 @@ public class ProductBasket {
         } else {
             System.out.println("Товар не найден");
         }
+        return exists;
     }
 
     public void clearBasket() {
